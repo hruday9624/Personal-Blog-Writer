@@ -13,6 +13,12 @@ genai.configure(api_key=GOOGLE_API_KEY)
 # Input field for the blog topic
 topic = st.text_area('Enter the Blog Topic:', placeholder='E.g., The Future of Artificial Intelligence')
 
+# Define a prompt template
+prompt = (
+    "Write a detailed blog about the topic: '{topic}'. "
+    "Include an engaging introduction, key points with examples, and a thoughtful conclusion."
+)
+
 # Button to generate blog content
 if st.button("Generate Blog"):
     if topic.strip():  # Ensure the topic is not empty
@@ -21,7 +27,7 @@ if st.button("Generate Blog"):
             model = genai.GenerativeModel("gemini-1.5-flash")  # Adjust the model as needed
 
             # Generate content based on the topic
-            response = model.generate_content(topic)  # Pass the topic directly
+            response = model.generate_content(prompt)  # Pass the topic directly
 
             # Check if a valid response is received
             if response and hasattr(response, 'text'):
