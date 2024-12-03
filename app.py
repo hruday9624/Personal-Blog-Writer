@@ -17,6 +17,8 @@ topic = st.text_area('Enter the Blog Topic:', placeholder='E.g., The Future of A
 if st.button('Generate Blog'):
     if topic.strip():  # Check if topic is not empty
         try:
+            # Initialize the generative model (assuming this is the correct model)
+            model = genai.GenerativeModel('gemini-pro')  # Adjust the model if needed
             # Generate the blog using the API
             response = model.generate_content(prompt=topic, max_output_tokens=500)
             blog_content = response['text']  # Assuming API returns a 'text' key
