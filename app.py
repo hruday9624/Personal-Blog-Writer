@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # Streamlit app layout
-st.title('Personal Blog Writer')
+st.title('Personal Blog Writer with Prompt Engineering')
 
 # Retrieve the API key from Streamlit secrets
 GOOGLE_API_KEY = st.secrets["GEMINI_API_KEY"]
@@ -14,7 +14,7 @@ genai.configure(api_key=GOOGLE_API_KEY)
 topic = st.text_area('Enter the Blog Topic:', placeholder='E.g., The Future of Artificial Intelligence')
 
 # Define a prompt template
-prompt = (
+prompt_template = (
     "Write a detailed blog about the topic: '{topic}'. "
     "Include an engaging introduction, key points with examples, and a thoughtful conclusion."
 )
@@ -23,11 +23,14 @@ prompt = (
 if st.button("Generate Blog"):
     if topic.strip():  # Ensure the topic is not empty
         try:
+            # Generate the full prompt using the template
+            full_prompt = prompt_template.format(topic=topic.strip())
+
             # Initialize the generative model
             model = genai.GenerativeModel("gemini-1.5-flash")  # Adjust the model as needed
 
-            # Generate content based on the topic
-            response = model.generate_content(prompt)  # Pass the topic directly
+            # Generate content based on the structured prompt
+            response = model.generate_content(full_prompt)  # Pass the prompt
 
             # Check if a valid response is received
             if response and hasattr(response, 'text'):
