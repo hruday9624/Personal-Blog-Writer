@@ -17,16 +17,17 @@ topic = st.text_area('Enter the Blog Topic:', placeholder='E.g., The Future of A
 if st.button('Generate Blog'):
     if topic.strip():  # Check if topic is not empty
         try:
+            # Initialize the generative model
+            model = genai.GenerativeModel("gemini-1.5-flash")  # Adjust model name as needed
             # Generate the blog using the API
-            response = genai.generate_content(
-                prompt=topic,
-                max_output_tokens=500
-            )
-            blog_content = response['candidates'][0]['output']  # Extract text from the response
+            response = model.generate_content(prompt=topic, max_output_tokens=500)
+            
+            # Extract and display the generated blog content
+            blog_content = response.text
             st.subheader('Generated Blog')
             st.write(blog_content)
-        except KeyError:
-            st.error("Failed to retrieve generated text from the response.")
+        except AttributeError:
+            st.error("Failed to retrieve text from the response. Ensure the model is returning 'text'.")
         except Exception as e:
             st.error(f"An unexpected error occurred: {e}")
     else:
