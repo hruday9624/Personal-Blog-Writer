@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # Streamlit app layout
-st.title('Personal Blog Writer with Prompt Engineering')
+st.title('Personal Blog Writer')
 
 # Retrieve the API key from Streamlit secrets
 GOOGLE_API_KEY = st.secrets["GEMINI_API_KEY"]
