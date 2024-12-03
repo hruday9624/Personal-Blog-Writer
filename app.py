@@ -20,7 +20,7 @@ if st.button('Generate Blog'):
             # Initialize the generative model
             model = genai.GenerativeModel("gemini-1.5-flash")  # Adjust model name as needed
             # Generate the blog using the API
-            response = model.generate_content(prompt=topic, max_output_tokens=500)
+            response = model.generate_content(input_text=topic, max_output_tokens=500)
             
             # Extract and display the generated blog content
             blog_content = response.text
