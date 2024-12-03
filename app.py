@@ -18,7 +18,7 @@ if st.button('Generate Blog'):
     if topic.strip():  # Check if topic is not empty
         try:
             # Generate the blog using the API
-            response = genai.generate_text(
+            response = genai.generate_content(
                 prompt=topic,
                 max_output_tokens=500
             )
