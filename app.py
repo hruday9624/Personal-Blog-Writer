@@ -14,21 +14,23 @@ genai.configure(api_key=GOOGLE_API_KEY)
 topic = st.text_area('Enter the Blog Topic:', placeholder='E.g., The Future of Artificial Intelligence')
 
 # Button to generate blog content
-if st.button('Generate Blog'):
-    if topic.strip():  # Check if topic is not empty
+if st.button("Generate Blog"):
+    if topic.strip():  # Ensure the topic is not empty
         try:
             # Initialize the generative model
-            model = genai.GenerativeModel("gemini-1.5-flash")  # Adjust model name as needed
-            # Generate the blog using the API
-            response = model.generate_content(input_text=topic, max_output_tokens=500)
-            
-            # Extract and display the generated blog content
-            blog_content = response.text
-            st.subheader('Generated Blog')
-            st.write(blog_content)
-        except AttributeError:
-            st.error("Failed to retrieve text from the response. Ensure the model is returning 'text'.")
+            model = genai.GenerativeModel("gemini-1.5-flash")  # Adjust the model as needed
+
+            # Generate content based on the topic
+            response = model.generate_content(topic)  # Pass the topic directly
+
+            # Check if a valid response is received
+            if response and hasattr(response, 'text'):
+                st.subheader("Generated Blog Content:")
+                st.write(response.text)  # Display the generated text
+            else:
+                st.error("Error: Unable to generate blog content. Please try again.")
+
         except Exception as e:
-            st.error(f"An unexpected error occurred: {e}")
+            st.error(f"An error occurred: {e}")
     else:
-        st.warning('Please enter a valid blog topic.')
+        st.warning("Please enter a valid blog topic.")
